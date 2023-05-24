@@ -1,0 +1,56 @@
+{
+  "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+  "name": "NATS Connector Template",
+  "id": "48797f22-290c-4ccb-840e-4636af3d3614",
+  "appliesTo": [
+    "bpmn:Task"
+  ],
+  "elementType": {
+    "value": "bpmn:ServiceTask"
+  },
+  "properties": [
+	{
+      "label": "URL",
+      "description": "URL of NATS Server",
+      "type": "String",
+      "value": "",
+      "feel": "optional",
+      "binding": {
+        "type": "zeebe:input",
+        "name": "url"
+      }
+    },
+	{
+      "label": "Topic",
+      "description": "Topic in which to publish message",
+      "type": "String",
+      "value": "",
+      "feel": "optional",
+      "binding": {
+        "type": "zeebe:input",
+        "name": "topic"
+      }
+    },
+	{
+      "label": "Message",
+      "description": "Message to publish",
+      "type": "String",
+      "value": "",
+      "feel": "optional",
+      "binding": {
+        "type": "zeebe:input",
+        "name": "message"
+      }
+    },
+    {
+      "type": "Hidden",
+      "value": "io.camunda:nats",
+      "binding": {
+        "type": "zeebe:taskDefinition:type"
+      }
+    }
+  ],
+  "icon": {
+    "contents": "data:image/svg+xml;utf8,%3Csvg%20width%3D%2218%22%20height%3D%2218%22%20viewBox%3D%220%200%2018%2018%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Cpath%20d%3D%22M17.0335%208.99997C17.0335%2013.4475%2013.4281%2017.0529%208.98065%2017.0529C4.53316%2017.0529%200.927765%2013.4475%200.927765%208.99997C0.927765%204.55248%204.53316%200.947083%208.98065%200.947083C13.4281%200.947083%2017.0335%204.55248%2017.0335%208.99997Z%22%20fill%3D%22%23505562%22%2F%3E%0A%3Cpath%20d%3D%22M4.93126%2014.1571L6.78106%203.71471H10.1375C11.1917%203.71471%2011.9824%203.98323%2012.5095%204.52027C13.0465%205.04736%2013.315%205.73358%2013.315%206.57892C13.315%207.44414%2013.0714%208.15522%2012.5841%208.71215C12.1067%209.25913%2011.4553%209.63705%2010.6298%209.8459L12.0619%2014.1571H10.3315L9.03364%2010.0249H7.24351L6.51254%2014.1571H4.93126ZM7.49711%208.59281H9.24248C9.99832%208.59281%2010.5901%208.42374%2011.0177%208.08561C11.4553%207.73753%2011.6741%207.26513%2011.6741%206.66842C11.6741%206.19106%2011.5249%205.81811%2011.2265%205.54959C10.9282%205.27113%2010.4558%205.1319%209.80936%205.1319H8.10874L7.49711%208.59281Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E%0A"},"description":"Invoke REST API","appliesTo":["bpmn:Task"],"groups":[{"id":"authentication","label":"Authentication"},{"id":"endpoint","label":"HTTP Endpoint"},{"id":"input","label":"Payload"},{"id":"timeout","label":"Connect Timeout"},{"id":"output","label":"Response Mapping"},{"id":"errors","label":"Error Handling"}],"id":"io.camunda.connectors.HttpJson.v2","category":{"name":"Connectors","id":"connectors"},"documentationRef":"https://docs.camunda.io/docs/components/connectors/out-of-the-box-connectors/rest/","elementType":{"value":"bpmn:ServiceTask"},"properties":[{"binding":{"type":"zeebe:taskDefinition:type"},"type":"Hidden","value":"io.camunda:http-json:1"},{"description":"Choose the authentication type. Select 'None' if no authentication is necessary","binding":{"name":"authentication.type","type":"zeebe:input"},"label":"Type","id":"authenticationType","type":"Dropdown","choices":[{"name":"None","value":"noAuth"},{"name":"Basic","value":"basic"},{"name":"Bearer Token","value":"bearer"},{"name":"OAuth 2.0","value":"oauth-client-credentials-flow"}],"value":"noAuth","group":"authentication"},{"binding":{"name":"method","type":"zeebe:input"},"id":"method","label":"Method","type":"Dropdown","choices":[{"name":"GET","value":"get"},{"name":"POST","value":"post"},{"name":"PATCH","value":"patch"},{"name":"PUT","value":"put"},{"name":"DELETE","value":"delete"}],"value":"get","group":"endpoint"},{"feel":"optional","binding":{"name":"url","type":"zeebe:input"},"label":"URL","type":"String","constraints":{"pattern":{"message":"Must be a http(s) URL.","value":"^(=|http://|https://|secrets).*$"},"notEmpty":true},"group":"endpoint"},{"description":"Map of query parameters to add to the request URL","feel":"required","binding":{"name":"queryParameters","type":"zeebe:input"},"optional":true,"label":"Query Parameters","type":"Text","group":"endpoint"},{"description":"Map of HTTP headers to add to the request","feel":"required","binding":{"name":"headers","type":"zeebe:input"},"optional":true,"label":"HTTP Headers","type":"Text","group":"endpoint"},{"condition":{"equals":"bearer","property":"authenticationType"},"feel":"optional","binding":{"name":"authentication.token","type":"zeebe:input"},"label":"Bearer Token","type":"String","constraints":{"notEmpty":true},"group":"authentication"},{"condition":{"equals":"oauth-client-credentials-flow","property":"authenticationType"},"description":"The OAuth token endpoint","feel":"optional","binding":{"name":"authentication.oauthTokenEndpoint","type":"zeebe:input"},"label":"OAuth Token Endpoint","type":"String","constraints":{"notEmpty":true},"group":"authentication"},{"condition":{"equals":"oauth-client-credentials-flow","property":"authenticationType"},"description":"Your application's Client ID from the OAuth client","feel":"optional","binding":{"name":"authentication.clientId","type":"zeebe:input"},"label":"Client ID","type":"String","constraints":{"notEmpty":true},"group":"authentication"},{"condition":{"equals":"oauth-client-credentials-flow","property":"authenticationType"},"description":"Your application's Client secret from the OAuth client","feel":"optional","binding":{"name":"authentication.clientSecret","type":"zeebe:input"},"label":"Client secret","type":"String","constraints":{"notEmpty":true},"group":"authentication"},{"condition":{"equals":"oauth-client-credentials-flow","property":"authenticationType"},"description":"The scopes which you want to request authorization for (e.g.read:contacts)","feel":"optional","binding":{"name":"authentication.scopes","type":"zeebe:input"},"optional":true,"label":"Scopes","type":"String","group":"authentication"},{"condition":{"equals":"oauth-client-credentials-flow","property":"authenticationType"},"description":"The unique identifier of the target API you want to access","feel":"optional","binding":{"name":"authentication.audience","type":"zeebe:input"},"optional":true,"label":"Audience","type":"String","group":"authentication"},{"condition":{"equals":"oauth-client-credentials-flow","property":"authenticationType"},"description":"Send client id and client secret as Basic Auth request in the header, or as client credentials in the request body","binding":{"name":"authentication.clientAuthentication","type":"zeebe:input"},"label":"Client Authentication","id":"authenticationType","type":"Dropdown","choices":[{"name":"Send client credentials in body","value":"credentialsBody"},{"name":"Send as Basic Auth header","value":"basicAuthHeader"}],"value":"basicAuthHeader","group":"authentication"},{"condition":{"equals":"basic","property":"authenticationType"},"feel":"optional","binding":{"name":"authentication.username","type":"zeebe:input"},"label":"Username","type":"String","constraints":{"notEmpty":true},"group":"authentication"},{"condition":{"equals":"basic","property":"authenticationType"},"feel":"optional","binding":{"name":"authentication.password","type":"zeebe:input"},"label":"Password","type":"String","constraints":{"notEmpty":true},"group":"authentication"},{"description":"Sets the timeout in seconds to establish a connection or 0 for an infinite timeout","binding":{"name":"connectionTimeoutInSeconds","type":"zeebe:input"},"optional":true,"label":"Connection Timeout","type":"String","value":"20","constraints":{"pattern":{"message":"Must be timeout in seconds (default value is 20 seconds)","value":"^([0-9]*$)|(secrets.*$)"},"notEmpty":false},"group":"timeout"},{"condition":{"oneOf":["post","put","patch","delete"],"property":"method"},"description":"Payload to send with the request","feel":"optional","binding":{"name":"body","type":"zeebe:input"},"optional":true,"label":"Request Body","type":"Text","group":"input"},{"description":"Name of variable to store the response in. Details in the <a href=\"https://docs.camunda.io/docs/components/connectors/use-connectors/#result-variable\" target=\"_blank\">documentation<\/a>","binding":{"type":"zeebe:taskHeader","key":"resultVariable"},"label":"Result Variable","type":"String","group":"output"},{"description":"Expression to map the response into process variables. Details in the <a href=\"https://docs.camunda.io/docs/components/connectors/use-connectors/#result-expression\" target=\"_blank\">documentation<\/a>","feel":"required","binding":{"type":"zeebe:taskHeader","key":"resultExpression"},"label":"Result Expression","type":"Text","group":"output"},{"description":"Expression to handle errors. Details in the <a href=\"https://docs.camunda.io/docs/components/connectors/use-connectors/#bpmn-errors\" target=\"_blank\">documentation<\/a>","feel":"required","binding":{"type":"zeebe:taskHeader","key":"errorExpression"},"label":"Error Expression","type":"Text","group":"errors"}]},{"$schema":"https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json","name":"Nats","icon":{"contents":"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18.609842' viewBox='0 0 18 18.609842' %3E%3Cstyle xml:space='preserve'%3Esvg %7Benable-background:new 0 0 288 288%7D%3C/style%3E%3Cstyle xml:space='preserve'%3E.st3%7Bfill:%23375c93%7D.st4%7Bfill:%238dc63f%7D%3C/style%3E%3Cpath fill='%2334a574' d='M 9.166904 0.34022826 h 8.646933 v 7.0099854 H 9.166904 z'/%3E%3Cpath fill='%2327aae1' d='M 0.5199715 0.34022826 h 8.646933 v 7.0099854 H 0.5199715 z'/%3E%3Cpath class='st4' d='M 9.166904 7.356633 h 8.646933 v 7.0099854 H 9.166904 z'/%3E%3Cpath class='st3' d='M 0.5199715 7.356633 h 8.646933 v 7.0099854 H 0.5199715 z'/%3E%3Cpath class='st4' d='M 7.895863 14.328102 l 4.2303853 3.9158344 v -3.9158344 z'/%3E%3Cpath class='st3' d='M 9.166904 14.328102 l 0.044935804 1.232525 l -1.3544936 -1.264622 z'/%3E%3Cpath fill='%23fff' d='M 12.74893 9.404422 V 3.6012838 h 2.067047 V 11.105563 H 11.68331 L 5.3601995 5.1997147 v 5.912268 H 3.2867332 v -7.510699 h 3.2417974 l 6.2203994 5.8031383 z'/%3E%3C/svg%3E"
+  }
+}
