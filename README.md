@@ -6,12 +6,15 @@
 
 !!! Work in progress !!!
 
-A starting point to build a NATS Connector to send messages to topics on NATS Servers
+A starting point to build a NATS Connector to send messages to topics on NATS Servers. You'll need to provide the URL of the NATS Server, the topic you want to publish to, and the message you want to publish 
+in the connector properties:
 
-[NATS](https://nats.io)
+[More information on NATS can be found here](https://nats.io)
+
+![](./images/setup.png)
 
 # TODO / Next steps
 
-- Build and publish it
+- Add stuff like authentication and outputs and additional functionality
 
 

@@ -1,6 +1,6 @@
 {
   "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
-  "name": "NATS Connector Template",
+  "name": "NATS Connector",
   "id": "48797f22-290c-4ccb-840e-4636af3d3614",
   "appliesTo": [
     "bpmn:Task"
